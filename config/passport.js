@@ -85,6 +85,8 @@ passport.use(new FacebookStrategy({
     callbackURL: (process.env.BASE_URL||'http://localhost:3030')+"/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
+    'use strict';
+
     let findUser = require('bluebird').promisify(User.findOne);
     let createUser = require('bluebird').promisify(User.create);
 
