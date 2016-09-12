@@ -80,9 +80,9 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
 }));
 
 passport.use(new FacebookStrategy({
-    clientID: process.env.FB_CLIENT_ID,
-    clientSecret: process.env.FB_CLIENT_SECRET,
-    callbackURL: process.env.BASE_URL+"/auth/facebook/callback"
+    clientID: process.env.FB_CLIENT_ID||'1',
+    clientSecret: process.env.FB_CLIENT_SECRET||'1',
+    callbackURL: (process.env.BASE_URL||'http://localhost:3030')+"/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
     let findUser = require('bluebird').promisify(User.findOne);
