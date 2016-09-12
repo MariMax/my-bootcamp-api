@@ -45,12 +45,20 @@ Getting up and running is as easy as 1, 2, 3....
 {Authorization: `Bearer ${jwt}`}
 ```
 ## What next
-1. Plan to add [sequelizeJS](http://docs.sequelizejs.com/en/v3/), in theory it will allow to use any db
-2. Will add courses and their relations to users, so in the end this api should cover the whole course.
+
+* write courses api
 
 Cannot promise backward compatibility, so be ready to drop your DB and fill it again
 
 FYI I am lazy person, and do not promise to do anything in time, I do it only for myself and if it could help for some of you, you can always say Thanks, but the best thanks is PR with something useful!
+
+## Facebook auth
+
+to be able `signup/signin` with facebook profile, you need to create facebook app, add facebook login to the app, make it public, get facebook app id and secret key and add them to .env file.
+
+first request should be to `http(s)://your domain name(localhost:3030)/auth/facebook` this request will be redirected to facebook, after that facebok should redirect you back to the app, please set calback url to `http(s)://your domain name(localhost:3030)/auth/facebook/callback`
+
+your login will be `firstName + ' ' + secondName`
 
 ## License
 
