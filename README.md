@@ -27,7 +27,7 @@ Getting up and running is as easy as 1, 2, 3....
     ```
 
 ##Methods
-1. `/signin` requires `login` and `password`, will check against db and if user there, will return object with JWT and user data
+1. `/signin` requires `login` and `password`, will check against db and if user exists, will return object with JWT and user data
 ```
 {
   token:'JWT here',
@@ -40,7 +40,7 @@ Getting up and running is as easy as 1, 2, 3....
 }
 ```
 2. `/signup` accepts `login`, `password`, `confirmation` returns same response as `/signin`
-3. in order to get access to other methods will should add this JWT token to requests headers
+3. in order to get access to other methods we should add this JWT token to requests headers
 ```
 {Authorization: `Bearer ${jwt}`}
 ```
@@ -54,9 +54,9 @@ FYI I am lazy person, and do not promise to do anything in time, I do it only fo
 
 ## Facebook auth
 
-to be able `signup/signin` with facebook profile, you need to create facebook app, add facebook login to the app, make it public, get facebook app id and secret key and add them to .env file.
+to be able `signup/signin` with facebook profile, you need to create facebook app, add facebook login product to the app, make it public, get facebook app id and secret key and add them to .env file.
 
-next step you need to get implement frontend facebook login, it is easy to do with [FBConector](https://github.com/guilhermevrs/ng2-facebook) there is an example and the lib
+next step: you need to implement frontend facebook login, it is easy to do with [FBConector](https://github.com/guilhermevrs/ng2-facebook) there is an example and the lib
 
 My code example of fb login
 ```
@@ -79,7 +79,7 @@ My code example of fb login
  ```
  {login: 'user name', token:'fb access token', userId: 'fb user id'}
  ```
-backend will check this information against facebook, and if your token is valid, you will get standard login response
+backend will check this information against facebook, and if your token is valid, you will get standard `signin/signup` response
 
 ```
 {
