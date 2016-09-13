@@ -14,6 +14,8 @@
     "passport-jwt": "^2.1.0",
     "passport-local": "^1.0.0",
     "rc": "1.0.1",
+    "request": "^2.74.0",
+    "request-promise": "^4.1.1",
     "sails": "~0.12.4",
     "sails-disk": "~0.10.9",
     "sails-mongo": "^0.12.1"

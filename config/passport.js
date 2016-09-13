@@ -109,3 +109,8 @@ module.exports.jwtSettings = {
   secret: SECRET,
   algorithm: ALGORITHM
 };
+
+module.exports.fbSettings={
+  appId:process.env.FB_CLIENT_ID,
+  appSecret:process.env.FB_CLIENT_SECRET
+}
