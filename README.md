@@ -56,9 +56,44 @@ FYI I am lazy person, and do not promise to do anything in time, I do it only fo
 
 to be able `signup/signin` with facebook profile, you need to create facebook app, add facebook login to the app, make it public, get facebook app id and secret key and add them to .env file.
 
-first request should be to `http(s)://your domain name(localhost:3030)/auth/facebook` this request will be redirected to facebook, after that facebok should redirect you back to the app, please set calback url to `http(s)://your domain name(localhost:3030)/auth/facebook/callback`
+next step you need to get implement frontend facebook login, it is easy to do with [FBConector](https://github.com/guilhermevrs/ng2-facebook) there is an example and the lib
+code example
+```
+  fbLogin(){
+    return Observable.fromPromise(new Promise((resolve, reject)=>{
+      let accessToken;
+      FB.login((response:any)=>{
+        if (response.status === 'connected'){
+          accessToken = response.authResponse.accessToken;
+          return FB.api('/me','GET',(response:any)=>resolve({login: response.name, token:accessToken, userId: response.id}))
+        }
+        return reject();
+      })
+    }))
+      .flatMap(res => this.api.post(`/fbLogin`, res))
+      .do(res => this.setJwt(res.token))
+      .do(res => this.storeService.saveGlobalItem(res.data, '_id'))
+      .map(res => res.data);
+  }
+```
+ as you can see when you have an user, you need to send our backend `/fbLogin` an object 
+ ```
+ {login: 'user name', token:'fb access token', userId: 'fb user id'}
+ ```
+backend will check this information against facebook, and if your token is valid, you will get standard user and jwt information back
 
-your login will be `firstName + ' ' + secondName`
+```
+{
+  token:'JWT here',
+  data:{
+    _id:'userId',
+    login:'userLogin',
+    createdAt:'',
+    updatedAt:''
+  }
+}
+```
+
 
 ## License
 
