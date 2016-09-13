@@ -32,7 +32,7 @@ Getting up and running is as easy as 1, 2, 3....
 {
   token:'JWT here',
   data:{
-    _id:'userId',
+    id:'userId',
     login:'userLogin',
     createdAt:'',
     updatedAt:''
@@ -79,13 +79,13 @@ My code example of fb login
  ```
  {login: 'user name', token:'fb access token', userId: 'fb user id'}
  ```
-backend will check this information against facebook, and if your token is valid, you will get standard user and jwt information back
+backend will check this information against facebook, and if your token is valid, you will get standard login response
 
 ```
 {
   token:'JWT here',
   data:{
-    _id:'userId',
+    id:'userId',
     login:'userLogin',
     createdAt:'',
     updatedAt:''
