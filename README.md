@@ -57,7 +57,8 @@ FYI I am lazy person, and do not promise to do anything in time, I do it only fo
 to be able `signup/signin` with facebook profile, you need to create facebook app, add facebook login to the app, make it public, get facebook app id and secret key and add them to .env file.
 
 next step you need to get implement frontend facebook login, it is easy to do with [FBConector](https://github.com/guilhermevrs/ng2-facebook) there is an example and the lib
-code example
+
+My code example of fb login
 ```
   fbLogin(){
     return Observable.fromPromise(new Promise((resolve, reject)=>{
