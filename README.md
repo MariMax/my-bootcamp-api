@@ -27,12 +27,12 @@ Getting up and running is as easy as 1, 2, 3....
     ```
 
 ##Methods
-1. `/signin` requires `login` and `password`, will check against db and if user there, will return object with JWT and user data
+1. `/signin` requires `login` and `password`, will check against db and if user exists, will return object with JWT and user data
 ```
 {
   token:'JWT here',
   data:{
-    _id:'userId',
+    id:'userId',
     login:'userLogin',
     createdAt:'',
     updatedAt:''
@@ -40,7 +40,7 @@ Getting up and running is as easy as 1, 2, 3....
 }
 ```
 2. `/signup` accepts `login`, `password`, `confirmation` returns same response as `/signin`
-3. in order to get access to other methods will should add this JWT token to requests headers
+3. in order to get access to other methods we should add this JWT token to requests headers
 ```
 {Authorization: `Bearer ${jwt}`}
 ```
@@ -54,11 +54,45 @@ FYI I am lazy person, and do not promise to do anything in time, I do it only fo
 
 ## Facebook auth
 
-to be able `signup/signin` with facebook profile, you need to create facebook app, add facebook login to the app, make it public, get facebook app id and secret key and add them to .env file.
+to be able `signup/signin` with facebook profile, you need to create facebook app, add facebook login product to the app, make it public, get facebook app id and secret key and add them to .env file.
 
-first request should be to `http(s)://your domain name(localhost:3030)/auth/facebook` this request will be redirected to facebook, after that facebok should redirect you back to the app, please set calback url to `http(s)://your domain name(localhost:3030)/auth/facebook/callback`
+next step: you need to implement frontend facebook login, it is easy to do with [FBConector](https://github.com/guilhermevrs/ng2-facebook) there is an example and the lib
 
-your login will be `firstName + ' ' + secondName`
+My code example of fb login
+```
+  fbLogin(){
+    return Observable.create((observer)=>{
+      let accessToken;
+      FB.login((response:any)=>{
+        if (response.status === 'connected'){
+          accessToken = response.authResponse.accessToken;
+          return FB.api('/me','GET',(response:any)=>observer.next({login: response.name, token:accessToken, userId: response.id}))
+        }
+        return observer.error();
+      })
+    })
+      .flatMap(res => this.api.post(`/fbLogin`, res))
+      .map(res => res.data);
+  }
+```
+ as you can see when you have an user, you need to send our backend `/fbLogin` an object 
+ ```
+ {login: 'user name', token:'fb access token', userId: 'fb user id'}
+ ```
+backend will check this information against facebook, and if your token is valid, you will get standard `signin/signup` response
+
+```
+{
+  token:'JWT here',
+  data:{
+    id:'userId',
+    login:'userLogin',
+    createdAt:'',
+    updatedAt:''
+  }
+}
+```
+
 
 ## License
 
