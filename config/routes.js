@@ -35,7 +35,7 @@ module.exports.routes = {
    '/signin': 'AuthController.signin',
    '/signup': 'AuthController.signup',
    '/auth/facebook/callback': 'AuthController.facebookCallback',
-   '/fbLogin':'AuthController.fbLogin'
+   '/fbLogin':'AuthController.fbLogin',
 
   /***************************************************************************
   *                                                                          *

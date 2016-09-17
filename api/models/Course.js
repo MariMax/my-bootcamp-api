@@ -6,9 +6,35 @@
  */
 
 module.exports = {
-
+  types: {
+      stringArray: function(array){
+          if (!Array.isArray(array)) {
+              return false;
+          } else {
+              return array.every(function (value) {
+                  return typeof(value) === "string"
+              });
+          }
+      }
+  },
   attributes: {
-
+    title:{
+      type: 'string'
+    },
+    description:{
+      type: 'string'
+    },
+    duration:{
+      type:'integer'
+    },
+    date:{
+      type:'date',
+      defaultsTo: new Date()
+    },
+    authors:{
+      type:'array',
+      stringArray:true
+    },
 
     owner:{
       model:'user'

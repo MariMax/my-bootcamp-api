@@ -23,6 +23,7 @@ var LOCAL_STRATEGY_CONFIG = {
  * Triggers when user authenticates via local strategy
  */
 function _onLocalStrategyAuth(login, password, next) {
+  console.log(login, password)
   User.findOne({
       login: login
     })
@@ -64,8 +65,9 @@ var opts = {
 };
 opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
+  
   User.findOne({
-    id: jwt_payload.id
+    id: jwt_payload.user.id
   }, function(err, user) {
     if (err) {
       return done(err, false);

@@ -57,10 +57,10 @@ module.exports = {
 
   fbLogin: function(req, res) {
     var user = req.allParams();
-    console.dir(user);
     rp(`https://graph.facebook.com/v2.7/debug_token?input_token=${user.token}&access_token=${sails.config.fbSettings.appId}|${sails.config.fbSettings.appSecret}`)
       .then(response => {
         'use strict';
+        //TODO check if response.data.user_id ===user.userId && sails.config.fbSettings.appId === response.data.app_id && response.data.is_valid
         let findUser = require('bluebird').promisify(User.findOne);
         findUser({
             login: user.login
