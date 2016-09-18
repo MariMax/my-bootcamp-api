@@ -6,34 +6,27 @@
  */
 
 module.exports = {
-  types: {
-      stringArray: function(array){
-          if (!Array.isArray(array)) {
-              return false;
-          } else {
-              return array.every(function (value) {
-                  return typeof(value) === "string"
-              });
-          }
-      }
-  },
   attributes: {
     title:{
-      type: 'string'
+      type: 'string',
+      required: true
     },
     description:{
-      type: 'string'
+      type: 'string',
+      required: true
     },
     duration:{
-      type:'integer'
+      type:'integer',
+      required: true
     },
     date:{
       type:'date',
       defaultsTo: new Date()
     },
     authors:{
-      type:'array',
-      stringArray:true
+      collection: 'author',
+      via: 'works',
+      dominant: true
     },
 
     owner:{

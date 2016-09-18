@@ -7,25 +7,50 @@
 
 module.exports = {
   create(req, res) {
-		Course
-		.create(Object.assign({}, req.body, {owner:req.user.id}))
-		.then(course=>res.created(course));
+    Course
+      .create(Object.assign({}, _.omit(req.allParams(), 'id'), {
+        owner: req.user.id
+      }))
+      .then(course => res.created(course))
+      .catch(error => res.serverError(error))
   },
 
   destroy(req, res) {
-		console.log(req.allParams().id)
+    var id = req.allParams().id;
+    if (!id) {
+      return res.notFound(req.allParams());
+    }
+    Course
+      .remove(id)
+      .then(() => res.ok())
+      .catch(error => res.serverError(error));
   },
 
   update(req, res) {
-		Course
-			.update({id:req.course.id}, req.course)
-			.then(()=>res.ok(req.course));
+    var course = req.allParams();
+    if (!course.id) {
+      return res.notFound(req.allParams());
+    }
+    Course
+      .update({
+        id: course.id
+      }, course)
+      .then(() => Course.findOne({
+        id: course.id
+      }))
+      .then(course => res.ok(course))
+      .catch(error => res.serverError(error))
   },
 
   get(req, res) {
     Course
       .find()
-			.where({ owner: req.user.id })
-			.then(courses=>res.ok({items:courses}))
+      .where({
+        owner: req.user.id
+      })
+      .then(courses => res.ok({
+        items: courses
+      }))
+      .catch(error => res.serverError(error))
   }
 };
