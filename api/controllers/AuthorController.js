@@ -6,7 +6,7 @@
  */
 
 module.exports = {
-  get(req, res) {
+  find(req, res) {
     Author
       .find({})
       .then(authors => res.ok({

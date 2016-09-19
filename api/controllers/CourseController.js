@@ -42,7 +42,7 @@ module.exports = {
       .catch(error => res.serverError(error))
   },
 
-  get(req, res) {
+  find(req, res) {
     Course
       .find()
       .where({

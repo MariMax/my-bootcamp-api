@@ -37,6 +37,13 @@ module.exports.routes = {
    '/auth/facebook/callback': 'AuthController.facebookCallback',
    '/fbLogin':'AuthController.fbLogin',
 
+   'get /course': 'CourseController.find',
+   'post /course': 'CourseController.create',
+   'delete /course': 'CourseController.destroy',
+   'put /course': 'CourseController.update',
+
+   'get /authors': 'AuthorController.find',
+
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *
