@@ -5,13 +5,23 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+'use strict';
+
+const populateAuthors = (course) => {
+  return Object.assign({}, course, { authors: course.authors.map(i => i.id) });
+}
+
 module.exports = {
   create(req, res) {
     Course
       .create(Object.assign({}, _.omit(req.allParams(), 'id'), {
         owner: req.user.id
       }))
-      .then(course => res.created(course))
+      .then(course => Course.findOne({ id: course.id }).populate('authors'))
+      .then(course => {
+        course = populateAuthors(course);
+        return res.created(course);
+      })
       .catch(error => res.serverError(error))
   },
 
@@ -21,7 +31,7 @@ module.exports = {
       return res.notFound(req.allParams());
     }
     Course
-      .remove(id)
+      .destroy({ id:id })
       .then(() => res.ok())
       .catch(error => res.serverError(error));
   },
@@ -35,22 +45,29 @@ module.exports = {
       .update({
         id: course.id
       }, course)
-      .then(() => Course.findOne({
-        id: course.id
-      }))
-      .then(course => res.ok(course))
+      .then(() => Course.findOne().where({ id: course.id }).populate('authors'))
+      .then(course => {
+        course = populateAuthors(course)
+        return res.ok(course)
+      })
       .catch(error => res.serverError(error))
   },
 
   find(req, res) {
+    console.log(req.user.id);
     Course
       .find()
       .where({
         owner: req.user.id
       })
-      .then(courses => res.ok({
-        items: courses
-      }))
+      .populate('authors')
+      .then(courses => {
+        courses = courses.map(populateAuthors);
+
+        res.ok({
+          items: courses
+        })
+      })
       .catch(error => res.serverError(error))
   }
 };
